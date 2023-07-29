@@ -29,7 +29,7 @@ There is 4 functions you can use as a user:
   The graphfn is optionnal, and allow change the graphics options
 
 ## The rule syntax
-A rule consist of two parts: the condition and the consequence.
+A rule consist of two parts: the condition and the consequence. 
 
 ### Exemples
 `condition->consequence` is a rule
@@ -37,8 +37,8 @@ A rule consist of two parts: the condition and the consequence.
 
 ### The condition syntax
 A condition can be multiple things
-| syntax |  description | usage |
-| a | b | c |
+| name | syntax |  description | usage |
+| List | {A, B, ...} | All conditions {A, B, ...} must be verified | {color->Red, poly->3} match a red triangle |
 
 
 
