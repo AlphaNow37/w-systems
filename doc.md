@@ -37,8 +37,8 @@ A rule consist of two parts: the condition and the consequence.
 
 ### The condition syntax
 A condition can be multiple things
-a | b
-c | d
+| syntax |  description | usage |
+| a | b | c |
 
 
 
