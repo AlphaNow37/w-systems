@@ -54,7 +54,7 @@ The folowing tags are built-in:
 | Name(s) | Description |
 |---|---|
 | Pnsides / poly | The number of sides (>=3) |
-| PsideIndex / edge | The placement on the parent |
+| PsideIndex / edge | The placement on the parent, counting counterclockwise, where 1 is the first edge after the base |
 | color | The filling color |
 | border | The border color |
 | opacity | The opacity, in the range [0-1] |
@@ -68,4 +68,12 @@ An effect can be multiple things
 | name | syntax |  description | usage |
 |---|---|---|---|
 | polygon | `poly->N` | Place a polygon with N sides | `{poly->4}` place a square |
-| coef | `coef->C` | The external radius of the children will be C times the 
+| coef | `coef->C` | The child's radius will be C times the parent's radius (default: 0.5) | `coef->1` don't change the size |
+| angle | `angle->A` | The child will be rotated by A radians (default: 0) | `angle->Pi` flip the polygon |
+| offset | `offset->{X, Y}` | Move the child relatively to the parent, by `{X, Y}*child's radius` (default: {0, 0}) | `offset->{1, 1}` move the child to the outside right |
+| nbEdges | `nbEdges->N` | The number of childs the child could have (default: poly-1 because we don't place child on the base) | `poly->4, ..., nbEdges->4` allow the square to have 4 childs |
+| color |  `color->C` | Fill the polygon with the color C; note: if nexts shapes don't specify color, this color will be applied | `color->Red` create a red polygon |
+| border | `border->B` | Set the border to B, which can be any EdgeForm valid parameter. None reset it. Same as color, it apply on next shapes | `border->{Red, Thick}` create a thick red border and `border->Green` just a green border |
+| texture | `texture->T` | Set the texture to T, which can be an image of anything else | `texture->img` will put img on the polygon |
+| addvar | `addvar-><|"name"->value, ...|>` | set the tag name to value for each new place | `addvar-><|"i"->0|>` add the tag i with value 0 |
+| evolver | `evolver->F` | Join the data of F[place] and newplace for each new place | `evolver->(<|"i"->#i+1|>&)` set all new place tag i to the current value of i plus 1 |
