@@ -39,17 +39,7 @@ A rule consist of two parts: the condition and the effect.
 `condition->effect` is a rule
 `{ cond1->eff1, cond2->eff2 }` is a list of two rules
 
-### The condition syntax
-A condition can be multiple things
-| name | syntax |  description | usage |
-|---|---|---|---|
-| Condition list | `{A, B, ...}` | All conditions {A, B, ...} must be verified | `{color->Red, poly->3}` match a red triangle |
-| Probabilities | `proba->P` | This condition has a probability of P to be verified | `proba->0.75` match 75% of the time |
-| Custom function | `custom->F` | This condition is verified when F[place] return True | `custom->(#Pnsides>4&)` match any shape with 5 or more sides. |
-| Tag list | `tag->values` | The parent's field tag must be contained in values | `poly->{4, 5}` match a square or a pentagon |
-| Tag equality | `tag->value` | The parent's field tag must be equal to value | `poly->4` match a square |
-
-#### Tags
+### Tags
 The folowing tags are built-in:
 | Name(s) | Description |
 |---|---|
@@ -63,8 +53,19 @@ The folowing tags are built-in:
 | Pxy | the absolute position |
 | Pradius | the external radius |
 
+### The condition syntax
+A condition can be multiple things
+| name | syntax |  description | usage |
+|---|---|---|---|
+| Condition list | `{A, B, ...}` | All conditions {A, B, ...} must be verified | `{color->Red, poly->3}` match a red triangle |
+| Probabilities | `proba->P` | This condition has a probability of P to be verified | `proba->0.75` match 75% of the time |
+| Custom function | `custom->F` | This condition is verified when F[place] return True | `custom->(#Pnsides>4&)` match any shape with 5 or more sides. |
+| Tag list | `tag->values` | The parent's field tag must be contained in values | `poly->{4, 5}` match a square or a pentagon |
+| Tag equality | `tag->value` | The parent's field tag must be equal to value | `poly->4` match a square |
+
+
 ### The effect system
-An effect can be multiple things
+An effect is a list, with the following options:
 | name | syntax |  description | usage |
 |---|---|---|---|
 | polygon | `poly->N` | Place a polygon with N sides | `{poly->4}` place a square |
@@ -77,3 +78,8 @@ An effect can be multiple things
 | texture | `texture->T` | Set the texture to T, which can be an image of anything else | `texture->img` will put img on the polygon |
 | addvar | `addvar-><|"name"->value, ...|>` | set the tag name to value for each new place | `addvar-><|"i"->0|>` add the tag i with value 0 |
 | evolver | `evolver->F` | Join the data of F[place] and newplace for each new place | `evolver->(<|"i"->#i+1|>&)` set all new place tag i to the current value of i plus 1 |
+
+### Additional syntaxes
+`cond->{eff1, eff2}` apply eff1 on the first edge and eff2 on the second. Equivalent to `{cond, edge->1}->eff1, {cond, edge->2}->eff2`
+
+`cond->eff1 && eff2` apply eff1 and aff2 on the same place if cond is verified
