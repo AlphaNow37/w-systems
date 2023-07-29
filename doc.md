@@ -2,11 +2,17 @@
 
 ## Vocabulary
 axiom: the situation at the begin, at iteration 0
+
 rules: a list of pair condition-effect
+
 niter: the number of iterations, of application of the rules
+
 place: an association containing all the informations on the parent
+
 matcher: The function f(place)->bool associated to a condition
+
 transformer: The function f(place)->{graphics, new places} associated to a effect
+
 radius of a polygon: the external radius, from the center to all the vertices
 
 ## The entry points
@@ -16,12 +22,14 @@ There is 4 functions you can use as a user:
   
   Calculate the graphics list at iteration niter.
   Note that you need to pass it into `Graphics` yourself
+
+  Exemple: `system[{{}->{poly->3}}, {poly->4}, 4] // Graphics`
   
 - `systemList[ rules, axiom, niter ]`
   
   Same as system, but return all frames beetween 0 and niter
   
-- `animesystem[...]`
+- `animesystem[ rules, axiom, niter, ..Options ]`
   
   Return an animation of all the frames
   
@@ -65,7 +73,15 @@ A condition can be multiple things
 
 
 ### The effect system
-An effect is a list, with the following options:
+An effect can have one of the following form:
+| name | syntax |  description | usage |
+|---|---|---|---|
+| list | `{T1, T2, ...}` | Just apply all the transformer T1, T2, ... | `{color->Red, poly->4}` |
+| list of list | `{L1, L2, ...}` | Apply L1 on the first edge, L2 on the second, ... | `cond->{{poly->4}, {poly->5}}` <=> `{cond, edge->1}->{poly->4}, {cond, edge->2}->{poly->5}` |
+| custom | `custom[F]` | return the result of the transformer F | `custom[{{RegularPolygon[3]}, {}}&]` just place a triangle |
+| and | `L1 && L2` | Apply L1 and L2 on the same place | `{poly->3} && {poly->4}` place a triangle and a square |
+
+An effect list have the following options:
 | name | syntax |  description | usage |
 |---|---|---|---|
 | polygon | `poly->N` | Place a polygon with N sides | `{poly->4}` place a square |
@@ -79,7 +95,6 @@ An effect is a list, with the following options:
 | addvar | `addvar-><|"name"->value, ...|>` | set the tag name to value for each new place | `addvar-><|"i"->0|>` add the tag i with value 0 |
 | evolver | `evolver->F` | Join the data of F[place] and newplace for each new place | `evolver->(<|"i"->#i+1|>&)` set all new place tag i to the current value of i plus 1 |
 
-### Additional syntaxes
-`cond->{eff1, eff2}` apply eff1 on the first edge and eff2 on the second. Equivalent to `{cond, edge->1}->eff1, {cond, edge->2}->eff2`
+  note that, for most of them, you can pass a function which is called every time the effect is applied.
 
-`cond->eff1 && eff2` apply eff1 and aff2 on the same place if cond is verified
+  usage: `color->(RandomColor[]&)`or `color->(#i&)`
