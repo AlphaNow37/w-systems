@@ -92,8 +92,8 @@ An effect list have the following options:
 | color |  `color->C` | Fill the polygon with the color C; note: if nexts shapes don't specify color, this color will be applied | `color->Red` create a red polygon |
 | border | `border->B` | Set the border to B, which can be any EdgeForm valid parameter. None reset it. Same as color, it apply on next shapes | `border->{Red, Thick}` create a thick red border and `border->Green` just a green border |
 | texture | `texture->T` | Set the texture to T, which can be an image of anything else | `texture->img` will put img on the polygon |
-| addvar | `addvar-><\|"name"->value, ...\|>` | set the tag name to value for each new place | `addvar-><|"i"->0|>` add the tag i with value 0 |
-| evolver | `evolver->F` | Join the data of F[place] and newplace for each new place | `evolver->(<|"i"->#i+1|>&)` set all new place tag i to the current value of i plus 1 |
+| addvar | `addvar-><\|"name"->value, ...\|>` | set the tag name to value for each new place | `addvar-><\|"i"->0\|>` add the tag i with value 0 |
+| evolver | `evolver->F` | Join the data of F[place] and newplace for each new place | `evolver->(<\|"i"->#i+1\|>&)` set all new place tag i to the current value of i plus 1 |
 
   note that, for most of them, you can pass a function which is called every time the effect is applied.
 
